@@ -1,7 +1,12 @@
 package com.example.emergencyResponse.controllers;
 
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.emergencyResponse.Entity.User;
+import com.example.emergencyResponse.services.UserService;
 
 @RestController
 @RequestMapping("/users")
@@ -10,6 +15,17 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+
+    @RequestMapping("/register")
+    public UserService createUser(@RequestBody User user) {
+        return userService.createUser(user);
+    }
+
+    @RequestMapping("/login")
+    public Boolean authenticateUser(@RequestParam String username, @RequestParam String password) {
+        return userService.authenticateUser(username, password);
     }
     
 }
