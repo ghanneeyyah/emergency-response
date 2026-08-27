@@ -9,7 +9,7 @@ import com.example.emergencyResponse.Entity.User;
 import com.example.emergencyResponse.services.UserService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/auth")
 public class UserController {
     private final UserService userService;
 
@@ -19,7 +19,7 @@ public class UserController {
 
 
     @RequestMapping("/register")
-    public UserService createUser(@RequestBody User user) {
+    public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 

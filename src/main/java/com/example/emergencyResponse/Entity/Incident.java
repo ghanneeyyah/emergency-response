@@ -24,8 +24,9 @@ public class Incident {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User userId;
+    private User user;
 
     private Enum<Status> Status;
     private Enum<Type> Type;
+
 }
