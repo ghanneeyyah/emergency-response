@@ -3,7 +3,7 @@ package com.example.emergencyResponse.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.emergencyResponse.Entity.Incident;
+import com.example.emergencyResponse.entity.Incident;
 
 
 @Repository

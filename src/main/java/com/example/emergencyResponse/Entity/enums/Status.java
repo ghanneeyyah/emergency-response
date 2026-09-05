@@ -1,4 +1,4 @@
-package com.example.emergencyResponse.Entity.enums;
+package com.example.emergencyResponse.entity.enums;
 
 public enum Status {
     Pending

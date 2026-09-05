@@ -2,7 +2,9 @@ package com.example.emergencyResponse.services;
 
 import org.springframework.stereotype.Service;
 
-import com.example.emergencyResponse.Entity.Incident;
+import com.example.emergencyResponse.entity.Incident;
+import com.example.emergencyResponse.entity.User;
+import com.example.emergencyResponse.exceptions.domain.UserNotFound;
 import com.example.emergencyResponse.repositories.IncidentRepo;
 import com.example.emergencyResponse.repositories.UserRepo;
 
@@ -19,25 +21,25 @@ public class IncidentService {
 
     public Incident createIncident(String username, Incident incident) {
         // Find the user by username
-        var user = userRepo.findByUsername(username);
-        if (user != null) {
-            // Associate the incident with the user
-            incident.setUser(user);
-            return incidentRepo.save(incident);
-        }
-        return null; // or throw an exception if user not found
+        User user = userRepo.findByUsername(username)
+                .orElseThrow(()-> new UserNotFound());
+        
+        incident.setUser(user);
+        return incidentRepo.save(incident); 
     }
 
     public Incident getIncidentById(String username,Long id) {
         // Find the user by username
-        var user = userRepo.findByUsername(username);
-        if (user != null) {
-            // Retrieve the incident by ID and check if it belongs to the user
-            var incident = incidentRepo.findById(id).orElse(null);
-            if (incident != null && incident.getUser().getId().equals(user.getId())) {
-                return incident;
-            }
+        User user = userRepo.findByUsername(username)
+                    .orElseThrow(()-> new UserNotFound());
+        
+        // Retrieve the incident by ID
+        Incident incident = incidentRepo.findById(id).orElse(null);
+        
+        if (incident != null && incident.getUser().getId().equals(user.getId())) {
+            return incident;
         }
-        return null; // or throw an exception if not found or not authorized
+        
+        return null; 
     }
 }

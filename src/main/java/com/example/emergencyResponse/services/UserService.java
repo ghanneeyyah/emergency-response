@@ -2,7 +2,8 @@ package com.example.emergencyResponse.services;
 
 import org.springframework.stereotype.Service;
 
-import com.example.emergencyResponse.Entity.User;
+import com.example.emergencyResponse.entity.User;
+import com.example.emergencyResponse.exceptions.domain.UserNotFound;
 import com.example.emergencyResponse.repositories.UserRepo;
 
 @Service
@@ -20,14 +21,15 @@ public class UserService {
     }
 
     public Boolean authenticateUser(String username, String password) {
-        User user = userRepo.findByUsername(username);
-        if (user != null) {
-            return new PasswordService().matches(password, user.getPassword());
-        }
-        return false;
+        User user = userRepo.findByUsername(username)
+                    .orElseThrow(()-> new UserNotFound());
+        
+        return new PasswordService().matches(password, user.getPassword());
+        
     }
 
     public User getUserByUsername(String username) {
-        return userRepo.findByUsername(username);
+        return userRepo.findByUsername(username)
+                .orElseThrow(()-> new UserNotFound());
     }
 }
